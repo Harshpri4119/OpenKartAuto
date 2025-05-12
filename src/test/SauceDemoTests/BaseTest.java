@@ -1,34 +1,40 @@
+package org.OrangeHRMTests;
+
+import org.OrangeHRMPages.BasePage;
+import org.OrangeHRMPages.LoginPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeTest;
+
+import java.time.Duration;
 
 public class BaseTest extends BasePage {
-    protected WebDriver driver;
+
+    protected WebDriver webDriver;
     protected BasePage basePage;
     protected LoginPage loginPage;
-    protected HomePage homePage;
-    protected String url = "https://www.saucedemo.com/v1/";
+    protected String url = "url";
 
-
-
-    @BeforeClass
+    @BeforeTest
     public void setUpEnv(){
         basePage = new BasePage();
         loginPage = new LoginPage();
-        homePage = new HomePage();
 
+        webDriver = new ChromeDriver();
+        basePage.setDriver(webDriver);
 
-        driver = new ChromeDriver();
-        basePage.setDriver(driver);
-        driver.manage().window().maximize();
-        driver.get(url);
-
+        webDriver.manage().window().maximize();
+        webDriver.get(url);
 
     }
 
-    @AfterClass
+    @AfterTest
     public void tearDown(){
-        driver.quit();
+        webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5000));
+        webDriver.quit();
     }
+
 }
